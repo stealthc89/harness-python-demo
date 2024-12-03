@@ -1,0 +1,38 @@
+pipeline:
+  name: SE Lab Pipeline
+  identifier: SE_Lab_Pipeline
+  projectIdentifier: SELab
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: SE_Lab_Con
+        build: <+input>
+  stages:
+    - stage:
+        name: Build Python App
+        identifier: Build_Python_App
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: MacOS
+            arch: Arm64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Build Python App
+                  identifier: Build_Python_App
+                  spec:
+                    shell: Sh
+                    command: |-
+                      echo "Welcome to Harness CI"
+                              python -m pip install --upgrade pip
+                              pip install  pytest
+                              if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
