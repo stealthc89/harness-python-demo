@@ -25,7 +25,7 @@ pipeline:
                   identifier: Build_Python_App
                   spec:
                     connectorRef: account.harnessImage
-                    image: my_python_app
+                    image: python:latest
                     shell: Sh
                     command: |-
                       echo "Welcome to Harness CI"
