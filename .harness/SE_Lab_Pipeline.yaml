@@ -17,12 +17,6 @@ pipeline:
         type: CI
         spec:
           cloneCodebase: true
-          platform:
-            os: MacOS
-            arch: Arm64
-          runtime:
-            type: Docker
-            spec: {}
           execution:
             steps:
               - step:
@@ -30,11 +24,22 @@ pipeline:
                   name: Build Python App
                   identifier: Build_Python_App
                   spec:
+                    connectorRef: account.harnessImage
+                    image: my_python_app
                     shell: Sh
                     command: |-
                       echo "Welcome to Harness CI"
                               python -m pip install --upgrade pip
                               pip install  pytest
                               if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+                  description: app build
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: SELabCluster
+              namespace: harness-delegate-ng
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
         delegateSelectors:
           - helm-delegate
